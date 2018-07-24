@@ -3,6 +3,7 @@
  */
 
 import React, { Component, Fragment } from 'react'
+import TodoItem from './TodoItem'
 import './style.css'
 class Todolist extends Component {
   constructor(props) {
@@ -16,9 +17,6 @@ class Todolist extends Component {
   render() {
     return (
       <Fragment>
-        {/* Todolist */}
-        {/* laber中for可以使用htmlFor='id' class应该使用className */}
-        {/* dangerouslySetInnerHTML={{ __html: item }} 可以渲染标签*/}
         <div>
           <label htmlFor='insertArea'>Todo:</label>
           <input
@@ -30,15 +28,21 @@ class Todolist extends Component {
           <button onClick={this.handleClick.bind(this)}>提交</button>
         </div>
         <ul>
+          <div>
           {
             this.state.list.map((item,index) => {
-              return <li
-              key={index}
-              onClick={this.hadleClickLi.bind(this,index)}
-              dangerouslySetInnerHTML={{__html: item}}
-              ></li>
+              return (
+                // 父级往子集穿值  通过 自定义={值} 然后子组件通过this.props.自定义
+                // 传递方法  自定义方法名={this.方法.bind(this)}  接收this.props.自定义方法名(参数)
+              <TodoItem
+              content={item}
+              index={index}
+              delItem={this.hadleClickLi.bind(this)}
+              ></TodoItem>
+            )
             })
           }
+          </div>
         </ul>
       </Fragment>
     )
