@@ -40,6 +40,7 @@ class Todolist extends Component {
           // 父级往子集穿值  通过 自定义={值} 然后子组件通过this.props.自定义
           // 传递方法  自定义方法名={this.方法.bind(this)}  接收this.props.自定义方法名(参数)
           <TodoItem
+            key={index}
             content={item}
             index={index}
             delItem={this.hadleClickLi}
