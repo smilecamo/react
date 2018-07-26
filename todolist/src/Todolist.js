@@ -14,9 +14,10 @@ class Todolist extends Component {
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.hadleClickLi = this.hadleClickLi.bind(this)
+    this.handleClickLi = this.handleClickLi.bind(this)
   }
   render() {
+    console.log('render');
     return (
       <Fragment>
         <div>
@@ -43,7 +44,7 @@ class Todolist extends Component {
             key={index}
             content={item}
             index={index}
-            delItem={this.hadleClickLi}
+            delItem={this.handleClickLi}
           ></TodoItem>
         )
       })
@@ -69,12 +70,33 @@ class Todolist extends Component {
       inputValue: ''
     }))
   }
-  hadleClickLi(index) {
+  handleClickLi(index) {
     const list = [...this.state.list];
     list.splice(index, 1)
     this.setState({
       list: list
     })
+  }
+  // 生命周期函数
+  // 组件第一次被挂载的时候执行
+    componentWillMount(){
+      console.log('组件第一次被挂载之前执行');
+    }
+  // 组件第一次被挂载完成之后的时候执行
+  componentDidMount(){
+    console.log('组件第一次挂载成功之后执行');
+  }
+
+  // 
+  shouldComponentUpdate(){
+    console.log('组件需要更新吗');
+    return true
+  }
+  componentWillUpdate(){
+    console.log('组件被更新之前执行');
+  }
+  componentDidUpdate(){
+    console.log('组件被更新完成之后');
   }
 }
 
