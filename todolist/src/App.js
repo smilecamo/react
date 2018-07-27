@@ -29,7 +29,7 @@ class App extends Component{
           style={{marginTop:'20px',width:'240px'}}
           bordered
           dataSource={this.state.list}
-          renderItem={item => (<List.Item>{item}</List.Item>)}
+          renderItem={(item, index)=> (<List.Item onClick={this.handleClickItem.bind(this,index)}>{item}</List.Item>)}
         />
       </div>
     )
@@ -44,6 +44,13 @@ class App extends Component{
   handleBtnClick(){
     const action = {
       type: 'add_item'
+    }
+    store.dispatch(action)
+  }
+  handleClickItem(index) {
+    const action = {
+      type: 'del_item',
+      index
     }
     store.dispatch(action)
   }
