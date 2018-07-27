@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Input, Button, List} from 'antd';
 import store from './store/index.js'
+import { getChangeInput, getAddItem, getDelItem} from './store/actionCreators'
 import 'antd/dist/antd.css';
 class App extends Component{
   constructor(props){
@@ -35,23 +36,15 @@ class App extends Component{
     )
   }
   handleInputChange(e){
-    const action = {
-      type: 'change_input_value',
-      value: e.target.value
-    }
+    const action = getChangeInput(e.target.value)
     store.dispatch(action)
   }
   handleBtnClick(){
-    const action = {
-      type: 'add_item'
-    }
+    const action = getAddItem()
     store.dispatch(action)
   }
   handleClickItem(index) {
-    const action = {
-      type: 'del_item',
-      index
-    }
+    const action = getDelItem(index)
     store.dispatch(action)
   }
   handStoreChange(){
