@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import AppUI from './AppUI'
 import store from './store/index.js'
-import { getChangeInput, getAddItem, getDelItem} from './store/actionCreators'
+import {
+  getChangeInput,
+  getAddItem,
+  getDelItem,
+  getList
+} from './store/actionCreators'
+import axios from 'axios'
 import 'antd/dist/antd.css';
 class App extends Component{
   constructor(props){
@@ -25,6 +31,13 @@ class App extends Component{
       handleClickItem = {this.handleClickItem}
       />
     )
+  }
+  componentDidMount(){
+    axios.get('/api/list').then((res)=>{
+      const data = res.data
+      const action = getList(data);
+      store.dispatch(action);
+    })
   }
   handleInputChange(e){
     const action = getChangeInput(e.target.value)
