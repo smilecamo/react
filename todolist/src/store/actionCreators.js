@@ -1,26 +1,13 @@
-import { CHANGE_INPUT_VALUE, ADD_ITEM,DEL_ITEM ,LIST_ITEM} from './actionTypes.js'
-import axios from 'axios'
+import { CHANGE_INPUT, CLICK_BTN, CHANGE_DEL } from './actionTypes'
+
 export const getChangeInput = (value) => ({
-  type: CHANGE_INPUT_VALUE,
+  type: CHANGE_INPUT,
   value
 })
-export const getAddItem = () => ({
-  type: ADD_ITEM
+export const getClickBtn = () => ({
+  type: CLICK_BTN
 })
-export const getDelItem = (index) => ({
-  type: DEL_ITEM,
+export const getClickDel = (index) => ({
+  type: CHANGE_DEL,
   index
 })
-export const getList = (data) => ({
-  type: LIST_ITEM,
-  data
-})
-export const getListAxios = () => {
-  return (dispatch) => {
-    axios.get('/api/list').then((res) => {
-      const data = res.data
-      const action = getList(data)
-      dispatch(action)
-    })
-  }
-}

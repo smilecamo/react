@@ -1,56 +1,53 @@
 import React, { Component } from 'react'
-import AppUI from './AppUI'
-import store from './store/index.js'
-import {
-  getChangeInput,
-  getAddItem,
-  getDelItem,
-  getListAxios
-} from './store/actionCreators'
-
-import 'antd/dist/antd.css';
-class App extends Component{
-  constructor(props){
-    super(props)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handStoreChange = this.handStoreChange.bind(this)
-    this.handleBtnClick = this.handleBtnClick.bind(this)
-    this.handleClickItem = this.handleClickItem.bind(this)
-    // 获取state数据
-    this.state = store.getState()
-    // 监测数据改变 订阅store的改变
-    store.subscribe(this.handStoreChange)
-  }
+import { connect } from 'react-redux'
+import { getClickDel, getClickBtn, getChangeInput} from './store/actionCreators'
+class App extends Component {
   render() {
-    return(
-      <AppUI
-      inputValue={this.state.inputValue}
-      handleInputChange = {this.handleInputChange}
-      handleBtnClick = {this.handleBtnClick}
-      list={this.state.list}
-      handleClickItem = {this.handleClickItem}
-      />
+    return (
+      <div>
+        <div>
+          <input value={this.props.inputValue}
+          onChange={this.props.handleChange}
+          />
+          <button onClick={this.props.handleClick}>提交</button>
+        </div>
+        <ul>
+          {
+            this.props.list.map((item, index)=>{
+              return (
+                <li key={index} onClick={this.props.handleDel}>{item}</li>
+              )
+            })
+          }
+        </ul>
+      </div>
     )
   }
-  componentDidMount(){
-    const action = getListAxios();
-    store.dispatch(action)
-  }
-  handleInputChange(e){
-    const action = getChangeInput(e.target.value)
-    store.dispatch(action)
-  }
-  handleBtnClick(){
-    const action = getAddItem()
-    store.dispatch(action)
-  }
-  handleClickItem(index) {
-    const action = getDelItem(index)
-    store.dispatch(action)
-  }
-  handStoreChange(){
-    this.setState(store.getState())
-  }
-  
+
 }
-export default App
+// 映射数据关系  怎么连接 连接规则
+const mapStateToProps = (state) => {
+  return {
+    inputValue: state.inputValue,
+    list: state.list
+  }
+}
+// 修改数据  把store.dispatch 绑定到props上  怎么修改数据并且关联
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleChange(e){
+      const action = getChangeInput(e.target.value)
+      dispatch(action);
+    },
+    handleClick(){
+      const action = getClickBtn()
+      dispatch(action);
+    },
+    handleDel(index){
+      const action = getClickDel(index)
+      dispatch(action);
+    }
+  }
+}
+// 通过connect 连接store
+export default connect(mapStateToProps, mapDispatchToProps)(App)
