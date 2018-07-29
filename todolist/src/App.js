@@ -5,9 +5,9 @@ import {
   getChangeInput,
   getAddItem,
   getDelItem,
-  getList
+  getListAxios
 } from './store/actionCreators'
-import axios from 'axios'
+
 import 'antd/dist/antd.css';
 class App extends Component{
   constructor(props){
@@ -33,11 +33,8 @@ class App extends Component{
     )
   }
   componentDidMount(){
-    axios.get('/api/list').then((res)=>{
-      const data = res.data
-      const action = getList(data);
-      store.dispatch(action);
-    })
+    const action = getListAxios();
+    store.dispatch(action)
   }
   handleInputChange(e){
     const action = getChangeInput(e.target.value)

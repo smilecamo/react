@@ -11,11 +11,11 @@ const defaultState = {
 }
 // state 所有的数据存储
 // reducer 可以接受state 但是不能修改
-export default (state=defaultState, action) => {
-  if (action.type === CHANGE_INPUT_VALUE){
+export default (state = defaultState, action) => {
+  if (action.type === CHANGE_INPUT_VALUE) {
     // 深度拷贝
     const newState = JSON.parse(JSON.stringify(state))
-    newState.inputValue= action.value
+    newState.inputValue = action.value
     return newState
   }
   if (action.type === ADD_ITEM) {
@@ -32,7 +32,6 @@ export default (state=defaultState, action) => {
   if (action.type === LIST_ITEM){
     const newState = JSON.parse(JSON.stringify(state))
     newState.list = action.data
-    console.log(action.data);
     return newState
   }
   return state

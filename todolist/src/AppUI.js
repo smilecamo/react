@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Input, Button, List} from 'antd';
 // 无状态组件 只有一个render(){}
 const AppUI = (props) => {
@@ -17,7 +17,7 @@ const AppUI = (props) => {
           style={{marginTop:'20px',width:'240px'}}
           bordered
           dataSource={props.list}
-          renderItem={(item, index)=> (<List.Item onClick={(index)=>{props.handleClickItem(index)}}>{item}</List.Item>)}
+          renderItem={(item, index)=> (<List.Item onClick={()=>{props.handleClickItem(index)}}>{item}</List.Item>)}
         />
       </div>
   )
