@@ -1,25 +1,17 @@
-import { CHANGE_INPUT, CLICK_BTN, CHANGE_DEL } from './actionTypes'
 const defaultState = {
-  inputValue: '',
-  list: []
+  foucused: false
 }
-export default (state = defaultState, action) => {
-  if (action.type === CHANGE_INPUT) {
-    const newState = JSON.parse(JSON.stringify(state));
-    newState.inputValue = action.value
-    return newState
+
+export default (state=defaultState, action) => {
+  if (action.type ==='search_focus'){
+    return{
+      foucused: true
+    }
   }
-  if (action.type === CLICK_BTN) {
-    const newState = JSON.parse(JSON.stringify(state));
-    // newState.list = [...newState.list,newState.list]
-    newState.list.push(newState.inputValue)
-    newState.inputValue = ''
-    return newState
-  }
-  if (action.type === CHANGE_DEL) {
-    const newState = JSON.parse(JSON.stringify(state));
-    newState.list.splice(action.index,1)
-    return newState
+  if (action.type ==='search_blur'){
+    return{
+      foucused: false
+    }
   }
   return state;
 }
