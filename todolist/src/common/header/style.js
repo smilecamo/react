@@ -1,9 +1,13 @@
 import styled from 'styled-components'
 import logoPic from '../../statics/logo.png'
-export const HeaderWrapper = styled.div`
-  position:relative;
-  height: 58px;
+export const Div = styled.div`
   border-bottom: 1px solid #ccc;
+`
+export const HeaderWrapper = styled.div`
+  position: relative;
+  width: 1440px;
+  height: 58px;
+  margin: 0 auto;
 `
 export const Logo = styled.a`
   position: absolute;
@@ -34,7 +38,7 @@ export const SearchWrapper = styled.div`
     line-height: 30px;
     border-radius: 15px;
     text-align: center;
-    &.foucused{
+    &.focused{
     background: #ccc;
     color: #fff;
     right: 5px;
@@ -89,9 +93,50 @@ export const NavSearch = styled.input.attrs({
   &::placeholder{
     color: #999;
   }
-  &.foucused{
+  &.focused{
     width: 250px;
   }
+`
+
+export const SearchInfo = styled.div`
+  position: absolute;
+  left: 0;
+  top: 58px;
+  width: 240px;
+  padding: 0 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,.2);
+`
+export const SearchTitle = styled.span`
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333;
+`
+export const SearchInfoSwitch = styled.a`
+  display: inline-block;
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  line-height: 20px;
+  font-size: 12px;
+  color: #969696;
+`;
+export const SearchInfoList = styled.div`
+  overflow:hidden;
+`
+export const SearchInfoItem = styled.a`
+  display: inline-block;
+  line-height: 20px;
+  padding: 0 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  border: 1px solid #ddd;
+  color: #777;
+  float: left;
+  border-radius: 2px;
 `
 export const Addition = styled.div`
   position: absolute;
