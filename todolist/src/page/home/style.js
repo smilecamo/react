@@ -80,3 +80,13 @@ export const ListItem = styled.div`
 export const ListInfo = styled.div `
 
 `
+export const RecommendWrapper = styled.div`
+  width: 280px;
+  /* margin: 30px 0; */
+`
+export const RecommendItem = styled.div`
+  width: 280px;
+  height: 50px;
+  background: url(${(props)=>props.imgUrl});
+  background-size: contain;
+`
