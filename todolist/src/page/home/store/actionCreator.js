@@ -32,8 +32,7 @@ export const getMoreList = (page) =>{
     })
   }
 }
-export const toggleTopShow = (show) => {
-  return(
-      type: actionType.TOGGLESHOW
-  )
-}
+export const toggleTopShow = (show) => ({
+  type: actionType.TOGGLESHOW,
+  show
+})

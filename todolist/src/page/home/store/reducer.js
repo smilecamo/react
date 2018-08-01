@@ -24,6 +24,10 @@ export default (state = defaultState, action) => {
         'articleList': state.get('articleList').concat(action.list),
         'articlePage':action.nextPage
       })
+    case actionType.TOGGLESHOW:
+      return state.merge({
+        'scrollShow': action.show
+      })
       // state.set('articleList', state.get('articleList').concat(action.list))
     default:
       return state;

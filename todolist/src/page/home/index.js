@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import axios from 'axios'
 import { connect } from 'react-redux'
 import {
@@ -12,7 +12,7 @@ import List from './component/List'
 import Recommend from './component/Recommend'
 import Writer from './component/Writer'
 import { actionCreator } from './store/index'
-class Home extends Component {
+class Home extends PureComponent {
   render() {
     return (
       <div>
@@ -46,6 +46,9 @@ class Home extends Component {
   }
   bindEvents(){
     window.addEventListener('scroll',this.props.changeScrollTopShow)
+  }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.props.changeScrollTopShow)
   }
 }
 const mapState = (state) => ({
