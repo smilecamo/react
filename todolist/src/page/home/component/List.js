@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { actionCreator } from '../store'
 import {
   ListItem,
   ListInfo,
+  LoadMore,
 }from '../style.js'
 class List extends Component {
   render() {
+    const { getMoreList,page } = this.props
     return (
       <div>
         {this.props.list.map((item)=>{
@@ -23,11 +26,18 @@ class List extends Component {
             </ListItem>
           )
         })}
+        <LoadMore onClick={()=>getMoreList(page)}>阅读更多</LoadMore>
       </div>
     )
   }
 }
 const mapState = (state) => ({
-  list: state.get('home').get('articleList')
+  list: state.get('home').get('articleList'),
+  page: state.getIn(['home', 'articlePage'])
 })
-export default connect(mapState,null)(List)
+const mapDispatch = (dispatch) => ({
+  getMoreList(page){
+    dispatch(actionCreator.getMoreList(page))
+  }
+})
+export default connect(mapState, mapDispatch)(List)

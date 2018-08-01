@@ -24,7 +24,17 @@ export const HomeRight = styled.div`
   padding-top: 30px;
   margin-left: 15px;
 `
-
+export const BackTop = styled.div`
+  position: fixed;
+  right: 80px;
+  bottom: 60px;
+  width: 80px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+`
 // 局部Topic
 export const TopicWrapper = styled.div`
   overflow: hidden;
@@ -79,6 +89,16 @@ export const ListItem = styled.div`
 `
 export const ListInfo = styled.div `
 
+`
+export const LoadMore = styled.div`
+  width: 100%;
+  height: 40px;
+  margin:30px 0;
+  line-height: 40px;
+  text-align: center;
+  background-color: #a5a5a5;
+  border-radius: 20px;
+  cursor: pointer;
 `
 export const RecommendWrapper = styled.div`
   width: 280px;

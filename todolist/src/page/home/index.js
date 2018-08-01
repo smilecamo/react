@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { HomeWrapper , HomeLeft, HomeRight} from './style.js'
+import {
+  HomeWrapper,
+  HomeLeft,
+  HomeRight,
+  BackTop
+} from './style.js'
 import Topic from './component/Topic'
 import List from './component/List'
 import Recommend from './component/Recommend'
 import Writer from './component/Writer'
+import { actionCreator } from './store/index'
 class Home extends Component {
   render() {
     return (
@@ -25,27 +31,39 @@ class Home extends Component {
           <Writer></Writer>
         </HomeRight>
       </HomeWrapper>
+      {
+        this.props.showScroll? <BackTop onClick= {this.scrollTop}>顶部</BackTop>:null
+      }
       </div>
     )
   }
+  scrollTop() {
+    window.scrollTo(0, 0)
+  }
   componentDidMount(){
-    axios.get('/api/homeList.json')
-    .then((res)=>{
-      const result = res.data.data;
-      const action = {
-        type: 'change_home_data',
-        topList: result.topList,
-        articleList: result.articleList,
-        recommentList: result.recommentList
-      }
-      // dispatch(action)
-      this.props.changeHomeData(action)
-    })
+    this.props.changeHomeData();
+    this.bindEvents();
+  }
+  bindEvents(){
+    window.addEventListener('scroll',this.props.changeScrollTopShow)
   }
 }
+const mapState = (state) => ({
+  showScroll: state.getIn(['home', 'scrollShow'])
+})
 const mapDispatch= (dispatch) => ({
-  changeHomeData(action){
-    dispatch(action)
+  changeHomeData(){
+    const action = actionCreator.getInfoList();
+    dispatch(action);
+  },
+  changeScrollTopShow(){
+    if(document.documentElement.scrollTop>400){
+      const action = actionCreator.toggleTopShow(true);
+      dispatch(action)
+    }else{
+      const action = actionCreator.toggleTopShow(false);
+      dispatch(action)
+    }
   }
 })
-export default connect (null,mapDispatch)(Home)
+export default connect(mapState, mapDispatch)(Home)
