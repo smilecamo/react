@@ -5,6 +5,10 @@ class AppItem extends Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
+    // 组件去除的时候
+    componentWillUnmount(){
+      console.log('组件移除')
+    }
   render (){
     const { content } = this.props
     return (

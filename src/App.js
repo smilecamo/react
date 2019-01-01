@@ -9,8 +9,29 @@ class App extends Component {
       list: []
     }
   }
-
+  // 挂载之前执行
+  componentWillMount(){
+    console.log('组件挂载之前')
+  }
+  // 挂载之后执行
+  componentDidMount(){
+    console.log('组件挂载之后')
+  }
+  // 确定更新吗 false不会被更新 true会被更新
+  shouldComponentUpdate(){
+    console.log('组件更新的时候')
+    return true
+  }
+  // 更新之前
+  componentWillUpdate(){
+    console.log('更新之前')
+  }
+  // 更新之后
+  componentDidUpdate(){
+    console.log('更新之后执行')
+  }
   render() {
+    console.log('render')
     return (
       <Fragment>
         <input
