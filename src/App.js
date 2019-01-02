@@ -1,63 +1,66 @@
-import React, { Component, Fragment } from 'react';
-import './style.css'
-import AppItem from'./AppItem'
+import React, { Component } from 'react'
+import store  from './store'
+import {
+  changeInputValue,
+  changeList,
+  delList
+} from './store/actionCreator'
+import {
+  Input,
+  Button,
+  List
+} from 'antd'
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state ={
-      inputValue: '',
-      list: []
-    }
+  constructor(state){
+    super(state)
+    this.state = store.getState()
+    this.handleStoreChange = this.handleStoreChange.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.changeList = this.changeList.bind(this)
+    store.subscribe(this.handleStoreChange)
   }
-
   render() {
     return (
-      <Fragment>
-        <input
-          className='input'
-          type="text"
-          value={this.state.inputValue}
-          onChange={this.onChangeInputValue.bind(this)}
+      <div style={{marginTop: 20}}>
+        <Input
+        style={{width: 300,marginRight: 20}}
+        value={this.state.inputValue}
+        placeholder="Todo"
+        onChange={this.handleInputChange}
         />
-        <button
-          onClick={this.handleBtnClick.bind(this)}
-        >提交</button>
-        <ul>
-          {
-            this.state.list.map((item, index) =>{
-              return (
-              <Fragment>
-                <AppItem
-                content={item}
-                index={index}
-                deleteItem={this.removeThis.bind(this)}
-                />
-              </Fragment>
-              )
-            })
-          }
-        </ul>
-      </Fragment>
-    );
+        <Button
+        type="primary"
+        onClick={this.changeList}
+        >提交</Button>
+        <List
+          style={{width: 300}}
+          bordered
+          dataSource={this.state.list}
+          renderItem={(item,index) => (
+            <List.Item
+            onClick={this.delItem.bind(this,index)}>
+              {item}
+            </List.Item>
+          )}
+        />
+      </div>
+    )
   }
-  onChangeInputValue(e){
-    this.setState({
-      inputValue: e.target.value
-    })
+  handleInputChange(e){
+    const action = changeInputValue(e.target.value)
+    store.dispatch(action)
   }
-  handleBtnClick(){
-    this.setState({
-      list: [...this.state.list, this.state.inputValue],
-      inputValue: ''
-    })
+  changeList(){
+    const action = changeList()
+    store.dispatch(action)
   }
-  removeThis(index){
-    const list = [...this.state.list]
-    list.splice(index, 1)
-    this.setState({
-      list
-    })
+  delItem(index){
+    const action = delList(index)
+    store.dispatch(action)
+  }
+  handleStoreChange(){
+    this.setState(store.getState())
   }
 }
 
-export default App;
+export default App
