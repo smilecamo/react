@@ -1,6 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'antd/dist/antd.css'
-import App from './App';
-
-ReactDOM.render(<App />, document.getElementById('root'));
+import AppItem from './App';
+import {Provider} from 'react-redux'
+import {GlobalStyle} from './style'
+import {IconfontStyle} from './statics/iconfont/iconfont'
+import store from './store'
+const App = (
+  <Provider store={store}>
+    <GlobalStyle />
+    <IconfontStyle />
+    <AppItem />
+  </Provider>
+)
+ReactDOM.render(App, document.getElementById('root'));
