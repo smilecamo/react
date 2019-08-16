@@ -10,6 +10,11 @@ const Home = () => {
       }
     });
   }
+  function GoB(){
+    Router.push({
+      pathname:'/test/b'
+    })
+  }
   // 路由切换前 history
   const handleRouteChange = url => {
     console.log('handleRouteChange: ', url);
@@ -39,6 +44,9 @@ const Home = () => {
     <>
       <Button type="primary" onClick={Go}>
         A
+      </Button>
+      <Button type="primary" onClick={GoB}>
+        B
       </Button>
       <div>
         this is div
