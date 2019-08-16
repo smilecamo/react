@@ -1,5 +1,6 @@
 import Router from 'next/router';
 import { Button } from 'antd';
+import store from '../store/store'
 import '../static/index.css';
 const Home = () => {
   function Go() {
