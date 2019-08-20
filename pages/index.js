@@ -1,6 +1,8 @@
 import Router from 'next/router';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
+import getCofnig from 'next/config';
+const { publicRuntimeConfig } = getCofnig();
 import '../static/index.css';
 const Home = () => {
   function Go() {
@@ -49,6 +51,7 @@ const Home = () => {
       <Button type="primary" onClick={GoB}>
         B
       </Button>
+      <a href={publicRuntimeConfig.OAUTH_URL}>GitHub登录</a>
       <style jsx>{`
         p {
           color: blue;
@@ -65,5 +68,4 @@ const Home = () => {
     </>
   );
 };
-export default connect(
-)(Home);
+export default connect()(Home);
