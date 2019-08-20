@@ -1,63 +1,72 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
-const initialState = {
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunkMiddleware from 'redux-thunk';
+
+const exampleInitialState = {
+  lastUpdate: 0,
+  light: false,
   count: 0
 };
-const initialUser = {
-  userName: 'Yang'
+
+export const actionTypes = {
+  TICK: 'TICK',
+  INCREMENT: 'INCREMENT',
+  DECREMENT: 'DECREMENT',
+  RESET: 'RESET'
 };
-const ADD = 'ADD';
-function count(state = initialState, action) {
+
+// REDUCERS
+export const reducer = (state = exampleInitialState, action) => {
   switch (action.type) {
-    case ADD:
-      return { count: state.count + (action.num || 1) };
+    case actionTypes.TICK:
+      return Object.assign({}, state, {
+        lastUpdate: action.ts,
+        light: !!action.light
+      });
+    case actionTypes.INCREMENT:
+      return Object.assign({}, state, {
+        count: state.count + 1
+      });
+    case actionTypes.DECREMENT:
+      return Object.assign({}, state, {
+        count: state.count - 1
+      });
+    case actionTypes.RESET:
+      return Object.assign({}, state, {
+        count: exampleInitialState.count
+      });
     default:
       return state;
   }
-}
-const UPDATANAME = 'UPDATANAME';
-function user(state = initialUser, action) {
-  switch (action.type) {
-    case UPDATANAME:
-      return { ...state, userName: action.name };
-    default:
-      return state;
-  }
-}
+};
 
-const allReducer = combineReducers({
-  count,
-  user
-});
+// ACTIONS
+export const serverRenderClock = isServer => dispatch => {
+  return dispatch({ type: actionTypes.TICK, light: !isServer, ts: Date.now() });
+};
 
-function add(num) {
-  return {
-    type: ADD,
-    num
-  };
-}
-function asyncAdd(num) {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(add(num));
-    }, 1000);
-  };
-}
-console.log(store.getState());
-store.dispatch(add(5));
-store.dispatch(asyncAdd(5));
-store.dispatch({ type: UPDATANAME, name: 'YONG' });
-store.subscribe(() => {
-  console.log('changeStore', store.getState());
-});
-console.log(store.getState());
-// 每次都新创建store
-export default function initializeStore(state) {
-  const store = createStore(
-    allReducer,
-    Object.assign({},state),
-    composeWithDevTools(applyMiddleware(ReduxThunk))
+export const startClock = dispatch => {
+  return setInterval(() => {
+    dispatch({ type: actionTypes.TICK, light: true, ts: Date.now() });
+  }, 1000);
+};
+
+export const incrementCount = () => {
+  return { type: actionTypes.INCREMENT };
+};
+
+export const decrementCount = () => {
+  return { type: actionTypes.DECREMENT };
+};
+
+export const resetCount = () => {
+  return { type: actionTypes.RESET };
+};
+
+export function initializeStore(initialState = exampleInitialState) {
+  return createStore(
+    reducer,
+    initialState,
+    composeWithDevTools(applyMiddleware(thunkMiddleware))
   );
-  return store;
 }

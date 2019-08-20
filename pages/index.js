@@ -2,7 +2,7 @@ import Router from 'next/router';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
 import '../static/index.css';
-const Home = ({ count, user, add }) => {
+const Home = () => {
   function Go() {
     Router.push({
       pathname: '/test/demo',
@@ -49,10 +49,6 @@ const Home = ({ count, user, add }) => {
       <Button type="primary" onClick={GoB}>
         B
       </Button>
-      <div>
-        {user}
-      </div>
-      <Button onClick={() => add(count)}>改变store{count}</Button>
       <style jsx>{`
         p {
           color: blue;
@@ -70,16 +66,4 @@ const Home = ({ count, user, add }) => {
   );
 };
 export default connect(
-  function mapStateToProps(state) {
-    return {
-      count: state.count.count,
-      user: state.user.userName
-    };
-  },
-  function mapDispatchToProps(dispatch) {
-    return {
-      add: num => dispatch({ type: 'ADD', num }),
-      rename: name => dispatch({ type: 'UPDATANAME', name })
-    };
-  }
 )(Home);
