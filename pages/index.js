@@ -1,8 +1,8 @@
 import Router from 'next/router';
 import { Button } from 'antd';
-import store from '../store/store'
+import { connect } from 'react-redux';
 import '../static/index.css';
-const Home = () => {
+const Home = ({ count, user, add }) => {
   function Go() {
     Router.push({
       pathname: '/test/demo',
@@ -11,10 +11,10 @@ const Home = () => {
       }
     });
   }
-  function GoB(){
+  function GoB() {
     Router.push({
-      pathname:'/test/b'
-    })
+      pathname: '/test/b'
+    });
   }
   // 路由切换前 history
   const handleRouteChange = url => {
@@ -50,8 +50,9 @@ const Home = () => {
         B
       </Button>
       <div>
-        this is div
+        {user}
       </div>
+      <Button onClick={() => add(count)}>改变store{count}</Button>
       <style jsx>{`
         p {
           color: blue;
@@ -68,4 +69,17 @@ const Home = () => {
     </>
   );
 };
-export default Home;
+export default connect(
+  function mapStateToProps(state) {
+    return {
+      count: state.count.count,
+      user: state.user.userName
+    };
+  },
+  function mapDispatchToProps(dispatch) {
+    return {
+      add: num => dispatch({ type: 'ADD', num }),
+      rename: name => dispatch({ type: 'UPDATANAME', name })
+    };
+  }
+)(Home);
