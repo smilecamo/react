@@ -2,13 +2,14 @@
  * @Author: Yang
  * @Date: 2019-08-09 15:08:09
  * @Last Modified by: Yang
- * @Last Modified time: 2019-08-21 13:35:30
+ * @Last Modified time: 2019-08-20 10:28:43
  */
 
 import App, { Container } from 'next/app';
 import { Provider } from 'react-redux';
 import 'antd/dist/antd.css';
-import Layout from '../components/Layout';
+import Layout from '../components-test/Layout';
+
 import withReduxStore from '../lib/with-redux';
 class MyApp extends App {
   // Component 就是界面

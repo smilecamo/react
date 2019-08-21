@@ -3,7 +3,6 @@ const config = require('../config');
 const { client_id, client_secret, require_token_url } = config.github;
 module.exports = server => {
   server.use(async (ctx, next) => {
-    console.log(ctx.path);
     if (ctx.path === '/auth') {
       const code = ctx.query.code;
       console.log('code ' + code);
