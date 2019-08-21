@@ -1,4 +1,6 @@
 import Router from 'next/router';
+import { useEffect } from 'react';
+import axios from 'axios';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
 import getCofnig from 'next/config';
@@ -43,6 +45,14 @@ const Home = () => {
   Router.events.on('beforeHistoryChange', handleBeforeHistoryChange);
   Router.events.on('hashChangeStart', handleHashChangeStart);
   Router.events.on('hashChangeComplete', handleHashChangeComplete);
+  useEffect(() => {
+    axios({
+      method:'GET',
+      url:'/user/info'
+    }).then(res=>{
+      console.log(res);
+    })
+  }, []);
   return (
     <>
       <Button type="primary" onClick={Go}>
