@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { useState,useCallback } from 'react'
 import { Layout, Avatar,Icon,Input } from 'antd'
+import getCofnig from 'next/config';
+const { publicRuntimeConfig } = getCofnig();
 import Container from './Container'
 const { Header, Content, Footer } = Layout
 
@@ -39,7 +41,8 @@ export default ({ children})=>{
       </div>
       <div className="header-right">
         <div className='user'>
-          <Avatar size="large" icon="user" />
+              <a href={publicRuntimeConfig.OAUTH_URL}><Avatar size="large" icon="user" /></a>
+          
         </div>
       </div>
         </Container>

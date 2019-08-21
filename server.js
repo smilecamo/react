@@ -32,15 +32,9 @@ app.prepare().then(() => {
   auth(server);
   // cookie
   server.use(async (ctx, next) => {
+    ctx.req.session = ctx.session;
     await handle(ctx.req, ctx.res);
-    // if (!ctx.cookies.get('id')) {
-    //   // 设置cookie
-    //   ctx.cookies.set('id', 'this is setCookie');
-    // }
-    // ctx.respond = false;
-    await next();
-    // 获取cookie
-    // console.log(ctx.cookies.get('id'));
+    ctx.respond = false;
   });
   router.get('/user/info', async ctx => {
     const userInfo = ctx.session.userInfo;
