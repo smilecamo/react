@@ -23,7 +23,7 @@ app.prepare().then(() => {
     // 前缀
     key: 'sessionKey',
     // 过期时间
-    maxAge: 100 * 1000,
+    maxAge: 10000 * 1000,
     // 链接redis数据库
     store: new RedisSessionStore(redis)
   };

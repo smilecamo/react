@@ -37,14 +37,18 @@ module.exports = server => {
       } else {
         ctx.body = `验证获取token失败 ${res.data.error}`;
       }
-      // if (result.status === 200 && (result.data && !result.data.error)) {
-      //   ctx.session.githubAuth = result.data;
-      //   ctx.redirect('/');
-      // } else {
-      //   ctx.body = `验证获取token失败 ${result.data.error}`;
-      // }
     } else {
       await next();
     }
   });
+  server.use(async(ctx,next)=>{
+    const path = ctx.path
+    const method = ctx.method
+    if(path==='/logout'&&method==='POST'){
+      ctx.session=null
+      ctx.body='logout success'
+    }else{
+      await next()
+    }
+  })
 };

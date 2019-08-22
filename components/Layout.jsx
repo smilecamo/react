@@ -1,9 +1,11 @@
-import Link from 'next/link'
+
 import { useState,useCallback } from 'react'
-import { Layout, Avatar,Icon,Input } from 'antd'
+import { connect } from 'react-redux'
+import { Layout, Avatar,Icon,Input,Tooltip, Dropdown, Menu } from 'antd'
 import getCofnig from 'next/config';
 const { publicRuntimeConfig } = getCofnig();
 import Container from './Container'
+import { logout } from '../store/store';
 const { Header, Content, Footer } = Layout
 
 const githubIconStyle = {
@@ -16,13 +18,25 @@ const githubIconStyle = {
 const footerStyle={
   textAlign:'center'
 }
-export default ({ children})=>{
+function MyLayout ({ children, user, logout}){
   const [search, setSearch] = useState('')
   const handleSearchChange = useCallback((event)=>{
     setSearch(event.target.value)
   },[])
   const handleSearch = useCallback(()=>{
   },[])
+  const handleLogout = useCallback(() => {
+    logout()
+  }, [])
+  const userDropDown = (
+    <Menu>
+      <Menu.Item>
+        <a href="javascript:void(0)" onClick={handleLogout}>
+          退 出
+      </a>
+      </Menu.Item>
+    </Menu>
+  )
   return(
   <Layout>
     <Header>
@@ -41,8 +55,22 @@ export default ({ children})=>{
       </div>
       <div className="header-right">
         <div className='user'>
-              <a href={publicRuntimeConfig.OAUTH_URL}><Avatar size="large" icon="user" /></a>
-          
+          {
+                user && user.id ? 
+                  (
+                    <Dropdown overlay={userDropDown}>
+                      <a href="/">
+                        <Avatar size="large" src={user.avatar_url} />
+                      </a>
+                    </Dropdown>
+
+                  ) 
+                : (
+                    <Tooltip title="点击登录"><a href={publicRuntimeConfig.OAUTH_URL}>
+                      <Avatar size="large" icon="user" />
+                    </a></Tooltip>
+                )
+          }
         </div>
       </div>
         </Container>
@@ -79,3 +107,13 @@ export default ({ children})=>{
   </Layout>
   )
 }
+
+export default connect(function userState(state){
+  return{
+    user: state.user
+  }
+},function mapReducers(display){
+  return{
+    logout: () => display(logout())
+  }
+})(MyLayout)

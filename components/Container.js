@@ -1,11 +1,15 @@
+/**
+ * 中间件 用来调整布局
+ * cloneElement 克隆组件 已element元素为样板克隆并返回新的元素
+ */
 import { cloneElement } from 'react';
 const style = {
   width: '100%',
   maxWidth: 1200,
   marginLeft: 'auto',
   marginRight: 'auto',
-  paddingLeft:20,
-  paddingRight:20,
+  paddingLeft: 20,
+  paddingRight: 20
 };
 export default ({ children, render = <div /> }) => {
   const newElement = cloneElement(render, {
