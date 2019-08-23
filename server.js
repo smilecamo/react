@@ -36,6 +36,26 @@ app.prepare().then(() => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
   });
+  // 登录鉴权前保存当前访问地址 
+  server.use(async (ctx, next) => {
+    const path = ctx.path;
+    const method = ctx.path;
+    console.log(ctx);
+    if (path === '/prepare-auth' && method === 'GET') {
+      const { url } = ctx.query;
+      ctx.session.urlBeforeOAuth = url;
+      ctx.body = 'ready';
+    } else {
+      await next();
+    }
+  });
+  // router.get('/prepare-auth', async (ctx, next) => {
+  //   const { url } = ctx.query;
+  //   console.log(ctx.query);
+  //   ctx.session.urlBeforeOAuth = url;
+  //   ctx.body = 'ready';
+  //   await next();
+  // });
   router.get('/user/info', async ctx => {
     const userInfo = ctx.session.userInfo;
     console.log('=========/user/info==');

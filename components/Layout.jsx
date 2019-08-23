@@ -2,7 +2,9 @@
 import { useState,useCallback } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Avatar,Icon,Input,Tooltip, Dropdown, Menu } from 'antd'
+import axios from 'axios'
 import getCofnig from 'next/config';
+import { withRouter} from 'next/router'
 const { publicRuntimeConfig } = getCofnig();
 import Container from './Container'
 import { logout } from '../store/store';
@@ -18,15 +20,32 @@ const githubIconStyle = {
 const footerStyle={
   textAlign:'center'
 }
-function MyLayout ({ children, user, logout}){
+function MyLayout ({ children, user, logout,router}){
   const [search, setSearch] = useState('')
   const handleSearchChange = useCallback((event)=>{
     setSearch(event.target.value)
   },[])
   const handleSearch = useCallback(()=>{
   },[])
+  // 退出
   const handleLogout = useCallback(() => {
     logout()
+  }, [logout])
+  // 登录鉴权前保留地址
+  const handleGoOAuth = useCallback((e) => {
+    e.preventDefault()
+    axios({
+      method:'get',
+      url: `/prepare-auth?url=${router.asPath}`
+    }).then(res=>{
+      if(res.status===200){
+        location.href = publicRuntimeConfig.OAUTH_URL
+      }else{
+        console.log('prepare-auth'+res);
+      }
+    }).catch((err)=>{
+      console.log('prepare-authErr' + err);
+    })
   }, [])
   const userDropDown = (
     <Menu>
@@ -66,7 +85,9 @@ function MyLayout ({ children, user, logout}){
 
                   ) 
                 : (
-                    <Tooltip title="点击登录"><a href={publicRuntimeConfig.OAUTH_URL}>
+                    <Tooltip title="点击登录"><a href={publicRuntimeConfig.OAUTH_URL}
+                    onClick={handleGoOAuth}
+                    >
                       <Avatar size="large" icon="user" />
                     </a></Tooltip>
                 )
@@ -116,4 +137,4 @@ export default connect(function userState(state){
   return{
     logout: () => display(logout())
   }
-})(MyLayout)
+  })(withRouter(MyLayout))
